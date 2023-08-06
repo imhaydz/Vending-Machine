@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Non-Powered Vending Machine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f7f7f7;
+        }
+
+        .vending-machine-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+        }
+
+        .vending-machine {
+            border: 2px solid #000;
+            background-color: #e6e6e6;
+            width: 300px;
+            height: 400px;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .vending-machine h2 {
+            margin-bottom: 20px;
+        }
+
+        .display {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Coin Slot */
+        .coin-slot {
+            width: 60px;
+            height: 20px;
+            background-color: #999;
+            border-radius: 5px;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        /* Coin Return */
+        .coin-return {
+            width: 60px;
+            height: 20px;
+            background-color: #999;
+            border-radius: 5px;
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+        }
+
+        /* Instructions */
+        .instructions {
+            text-align: left;
+            width: 40%;
+            padding: 20px;
+            margin: 20px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            background-color: #e6e6e6;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .instructions h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        // JavaScript code for the non-powered vending machine
+        const items = {
+            1: { name: 'Soda', price: 1.50, quantity: 5 },
+            2: { name: 'Chips', price: 1.00, quantity: 10 },
+            3: { name: 'Candy', price: 0.75, quantity: 8 },
+        };
+
+        function purchaseItem(itemCode, amount) {
+            if (itemCode in items) {
+                const item = items[itemCode];
+                if (item.quantity > 0) {
+                    if (amount >= item.price) {
+                        item.quantity--;
+                        updateDisplay(`Dispensing ${item.name}.`);
+                        if (amount > item.price) {
+                            const change = amount - item.price;
+                            updateDisplay(`Don't forget to collect your change: $${change.toFixed(2)}`);
+                        }
+                    } else {
+                        updateDisplay('Insufficient amount.');
+                    }
+                } else {
+                    updateDisplay('Item out of stock.');
+                }
+            } else {
+                updateDisplay('Invalid item code.');
+            }
+        }
+
+        function updateDisplay(message) {
+            const display = document.getElementById('display');
+            display.textContent = message;
+        }
+    </script>
+</head>
+<body>
+    <div class="vending-machine-container">
+        <div class="vending-machine">
+            <h2>Non-Powered Vending Machine</h2>
+            <div class="display" id="display">Please select an item.</div>
+            <div class="button-container">
+                <!-- Modify the onclick handlers to include item codes and prices -->
+                <button onclick="purchaseItem(1, 1.50)">Soda ($1.50)</button>
+                <button onclick="purchaseItem(2, 1.00)">Chips ($1.00)</button>
+                <button onclick="purchaseItem(3, 0.75)">Candy ($0.75)</button>
+            </div>
+            <!-- Coin Slot -->
+            <div class="coin-slot"></div>
+            <!-- Coin Return -->
+            <div class="coin-return"></div>
+        </div>
+        <!-- Instructions -->
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <p>1. Select an item by clicking one of the buttons.</p>
+            <p>2. Insert the correct amount of money into the coin slot on the right.</p>
+            <p>3. If the amount is more than the item's price, your change will be displayed.</p>
+            <p>4. The item will be dispensed, and you can collect it from the bottom.</p>
+            <p>5. Enjoy your purchase!</p>
+        </div>
+    </div>
+</body>
+</html>
